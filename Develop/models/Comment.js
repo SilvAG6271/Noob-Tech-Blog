@@ -15,6 +15,10 @@ Comment.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    created_on: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
     description: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -41,7 +45,7 @@ Comment.init(
     sequelize,
     freezeTableName: true,
     underscored: true,
-    modelName: 'blog',
+    modelName: 'comment',
   }
 );
 

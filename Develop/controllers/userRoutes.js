@@ -60,7 +60,7 @@ router.get('/post/:id', async (req, res) => {
 
     const painting = dbPaintingData.get({ plain: true });
 
-    res.render('painting', { painting });
+    res.render('', {  });
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
