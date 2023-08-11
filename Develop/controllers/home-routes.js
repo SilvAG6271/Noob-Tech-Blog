@@ -1,24 +1,25 @@
 const router = require('express').Router();
-const { Gallery, Painting } = require('../models');
+const { Blog, Post } = require('../models');
 
 // GET all Posts for homepage
 router.get('/', async (req, res) => {
   try {
-    const dbGalleryData = await Post.findAll({
+    const dbPostData = await Post.findAll({
       include: [
         {
+          model: User,
+          attributes: ['username'],
+          },
           
-          ,
-        },
       ],
     });
 
-    const posts = dbGalleryData.map((gallery) =>
-      gallery.get({ plain: true })
+    const blogs = dbBlogData.map((blog) =>
+      blog.get({ plain: true })
     );
 
     res.render('homepage', {
-      galleries,
+      blogs,
     });
   } catch (err) {
     console.log(err);
@@ -27,26 +28,25 @@ router.get('/', async (req, res) => {
 });
 
 // GET one gallery
-router.get('/post/:id', async (req, res) => {
+router.get('/blog/:id', async (req, res) => {
   try {
-    const dbPostData = await Post.findByPk(req.params.id, {
+    const dbBlogData = await Post.findByPk(req.params.id, {
       include: [
         {
-          model: Painting,
+          model: Blog,
           attributes: [
             'id',
             'title',
-            'artist',
-            'exhibition_date',
-            'filename',
-            'description',
+            'author',
+            'created_on',
+            // 'description',
           ],
         },
       ],
     });
 
-    const gallery = dbGalleryData.get({ plain: true });
-    res.render('gallery', { gallery });
+    const blog = dbBlogData.get({ plain: true });
+    res.render('blog', { blog });
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
@@ -54,9 +54,9 @@ router.get('/post/:id', async (req, res) => {
 });
 
 // GET one painting
-router.get('/painting/:id', async (req, res) => {
+router.get('/post/:id', async (req, res) => {
   try {
-    const dbPaintingData = await Painting.findByPk(req.params.id);
+    const dbPaintingData = await Post.findByPk(req.params.id);
 
     const painting = dbPaintingData.get({ plain: true });
 
