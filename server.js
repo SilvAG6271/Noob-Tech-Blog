@@ -4,7 +4,7 @@ const session = require('express-session');
 const exphbs = require('express-handlebars');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
-const routes = require('./controllers');
+const routes = require('./Controllers');
 const sequelize = require('./config/connection');
 const helpers = require('./utils/helpers');
 
@@ -19,7 +19,7 @@ const sess = {
     maxAge: 30 * 60 * 1000,
     http: true,
     secured: false,
-    sameSite: strict,
+    sameSite: "strict",
 },
   resave: false,
   saveUninitialized: true,
@@ -30,7 +30,10 @@ const sess = {
 
 app.use(session(sess));
 
-const hbs = exphbs.create({ helpers });
+const hbs = exphbs.create({ helpers, 
+allowProtoMethodsByDefault: true,
+allowProtoPropertiesByDefault: true
+ });
 
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
@@ -44,7 +47,7 @@ app.use(routes);
 sequelize.sync({ force: false }).then(() => {
   app.listen(PORT, () =>
     console.log(
-      `\nServer running on port ${PORT}. Visit http://localhost:${PORT} and create an account!`
+      `\nServer running on port ${PORT}.`
     )
   );
 });

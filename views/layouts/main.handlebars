@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Noob Tech Blog</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+
+<body>
+  <header>
+    <h1>
+      <a href = "/">Welcome to all the Noob Techs!!</h1><a>  
+  <nav>
+    <a href="/">Homepage</a>
+    <a href="/dashboard">Dashboard</a>
+    
+    <!-- If the user is logged in, show a logout button -->
+    <button id="logout" class="waves-effect waves-light btn-small">Logout</button>
+    
+    <!-- Otherwise, show a link to login -->
+    <a href="/login">Login</a>
+   
+  </nav>
+  </header>
+  <main>
+    <div>
+      {{{body}}}
+    </div>
+  </main>
+  <!-- If the user is logged in, load the JS script for when they logout -->
+  
+  <script src="/js/userLogic.js"></script>
+  <script src="/js/logoutLogic.js"></script>
+  <script src="/js/PostFront.js"></script>
+  <script src="/js/singlePost.js"></script>
+  
+</body>
+
+</html>
