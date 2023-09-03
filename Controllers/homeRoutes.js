@@ -7,20 +7,15 @@ router.get('/', async (req, res) => {
     const latestPosts = await Post.findAll({
       order: [['createdAt', 'DESC']],
       limit: 5,
-      include: [
-        {model: User,
-          attributes: ['username'],
-          as: 'user'
-        },
-      ]
-    });
+     });
     const formatPosts = latestPosts.map((post) => ({
-      username: user.post.username,
+      username: post.username,
       title: post.title,
       text: post.text,
       created_on: post.created_on
     }));
     console.log('Latest Posts', latestPosts);
+    
 
     res.render('homepage', {
        posts: formatPosts

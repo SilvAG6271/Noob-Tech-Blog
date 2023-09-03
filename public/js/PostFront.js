@@ -4,12 +4,23 @@ async function newFormHandler(event) {
     const title = document.querySelector('#title').value.trim();
     const text = document.querySelector('#text').value.trim();
     
+
+    try { 
+      const userData = await fetch('api/users/username')
+      if (!userData.ok) {
+        throw new Error(`Request failed with status ${userData.status}`);
+      }
+      const data = await userData.json();
+      const username = data.username;
+      console.log('username:', username)
+
    // Send post request to add a new blog post information
     let response = await fetch(`/api/posts`, {
       method: 'POST',
       body: JSON.stringify ({
         title: title,
         text: text,
+        username: username
         
       }),
       headers: {
@@ -22,7 +33,11 @@ async function newFormHandler(event) {
     } else {
       alert('Failed to add post');
     }
+  } catch (error) {
+    console.error('Fetch error', error);
+    alert('Failed to fetch the username');
   }
+}
   
 
 

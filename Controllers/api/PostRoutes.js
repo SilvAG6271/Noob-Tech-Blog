@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const  {Post} = require('../../models');
+const  {Post, User} = require('../../models');
 const withAuth = require('../../utils/auth');
 
 // router.get('/singlePost/:id',  async (req, res) => {
@@ -24,7 +24,16 @@ const withAuth = require('../../utils/auth');
 
 router.post('/', async(req,res)=> {
   try{
-    const newPost = {...req.body, "user_id": req.session.user_id}
+    const user = await User.findOne({where: {id: req.session.user_id}});
+
+    if (!user) {
+      return res.status(404).json({message: 'User not found'});
+    }
+
+    const newPost = {
+      ...req.body, "user_id": req.session.user_id,
+      username: user.username
+    }
     const postData = await Post.create(newPost);
 
     res.status(200).json(postData)

@@ -1,6 +1,15 @@
 const router = require('express').Router();
 const { Comment, Post, User } = require('../../models');
 
+router.get('/username', async (req, res) => {
+  if (req.session && req.session.username) {
+    const userName = req.session.username;
+    res.json({username: userName});
+  } else {
+    res.status(401).json({message: 'Unauthorized'});
+  }
+});
+
 router.post('/', async (req, res)=> {
   try {
     const userInfo = await User.create({
