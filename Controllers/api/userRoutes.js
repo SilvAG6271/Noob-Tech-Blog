@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { Comment, Post, User } = require('../../models');
 
+//gets username that is entered when user signs up
 router.get('/username', async (req, res) => {
   if (req.session && req.session.username) {
     const userName = req.session.username;
@@ -9,7 +10,7 @@ router.get('/username', async (req, res) => {
     res.status(401).json({message: 'Unauthorized'});
   }
 });
-
+//route to create a user account with the username, email and password.
 router.post('/', async (req, res)=> {
   try {
     const userInfo = await User.create({
@@ -28,7 +29,7 @@ router.post('/', async (req, res)=> {
     res.status(500).json(err);
   }
 })
-
+//route to login using username and password 
 router.post('/login', async(req, res) => {
 try {
   const userInfo = await User.findOne({

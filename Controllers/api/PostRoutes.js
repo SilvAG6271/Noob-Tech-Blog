@@ -2,18 +2,17 @@ const router = require('express').Router();
 const  {Post, User} = require('../../models');
 const withAuth = require('../../utils/auth');
 
-// router.get('/singlePost/:id',  async (req, res) => {
+// router.get('/homepageSingle/:id', withAuth,  async (req, res) => {
 //   console.log('Fetching data for ID:', req.params.id);
 //     try {
-//         const singleBlogPosts = await Post.findByPk(
+//         const homeBlogPosts = await Post.findByPk(
 //           req.params.id);
 
-//           if (singleBlogPosts) {
-//             res.render('singlePost', {
-//               title: singleBlogPosts.title,
-//               text: singleBlogPosts.text,
-//               loggedIn: req.session.loggedIn,
-//               username: req.session.username  })
+//           if (homeBlogPosts) {
+//             res.render('homepageSingle', {
+//               title: homeBlogPosts.title,
+//               text: homeBlogPosts.text,
+//                 })
 //           }else{
 //     res.status(404).send('Post not found.');
 //     } 
@@ -24,15 +23,8 @@ const withAuth = require('../../utils/auth');
 
 router.post('/', async(req,res)=> {
   try{
-    const user = await User.findOne({where: {id: req.session.user_id}});
-
-    if (!user) {
-      return res.status(404).json({message: 'User not found'});
-    }
-
-    const newPost = {
+      const newPost = {
       ...req.body, "user_id": req.session.user_id,
-      username: user.username
     }
     const postData = await Post.create(newPost);
 

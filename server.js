@@ -17,8 +17,8 @@ const sess = {
   cookie: {
     // Stored in milliseconds, 30 min
     maxAge: 30 * 60 * 1000,
-    http: true,
-    secured: false,
+    httpOnly: true,
+    secure: false,
     sameSite: "strict",
 },
   resave: false,

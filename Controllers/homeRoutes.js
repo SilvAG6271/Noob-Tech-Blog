@@ -7,12 +7,18 @@ router.get('/', async (req, res) => {
     const latestPosts = await Post.findAll({
       order: [['createdAt', 'DESC']],
       limit: 5,
+       include: [
+        {model: Comment,
+       attributes: ['id', 'title', 'username', 'text']
+      }
+  ],
      });
     const formatPosts = latestPosts.map((post) => ({
       username: post.username,
       title: post.title,
       text: post.text,
-      created_on: post.created_on
+      created_on: post.created_on,
+      id: post.id,
     }));
     console.log('Latest Posts', latestPosts);
     
@@ -26,6 +32,8 @@ router.get('/', async (req, res) => {
     res.status(500).json(err);
 }
 });
+
+
 
 router.get('/login', (req, res) => {
     try {
@@ -76,6 +84,27 @@ router.get('/newPost', withAuth, (req, res) => {
     res.status(500).json(err);
   }
 });
+
+router.get('/homepageSingle/:id', withAuth, async (req, res) => {
+  console.log('Fetching data for ID:', req.params.id);
+    try {
+        const homeBlogPosts = await Post.findByPk(
+          req.params.id);
+
+          if (homeBlogPosts) {
+            res.render('homepageSingle', {
+              title: homeBlogPosts.title,
+              text: homeBlogPosts.text,
+              username: homeBlogPosts.username,
+              loggedIn: req.session.loggedIn,
+                })
+          }else{
+    res.status(404).send('Post not found.');
+    } 
+  }catch (err) {
+     res.status(500).json(err)
+  } 
+ });
 
 router.get('/singlePost/:id', async (req, res) => {
   console.log('Fetching data for ID:', req.params.id);

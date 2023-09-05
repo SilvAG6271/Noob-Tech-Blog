@@ -53,10 +53,7 @@ async function newFormHandler(event) {
     addPostBtn();
   
     
-    const editTitleInput = document.getElementById('editableTitle');
-    const editTextArea = document.getElementById('editableText');
-
-    let editing = false;
+   
 
     const editButton = document.getElementById('edit-button');
     if (editButton) {
